@@ -25,4 +25,6 @@ int PrintProcessID(void) {
 	for (i = 0; i < cProcesses; i++) {
 		std::cout << "Process: " << i << "\nID: " << aProcesses[i] << std::endl;
 	}
+
+	return 0;
 }
