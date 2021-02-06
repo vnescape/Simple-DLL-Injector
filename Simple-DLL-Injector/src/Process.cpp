@@ -1,17 +1,11 @@
-#include <windows.h>
-#include <psapi.h>
 #include <iostream>
+#include <Windows.h>
+#include <stdio.h>
+#include <tchar.h>
+#include <psapi.h>
+#include "Process.h"
 
-// Source: https://docs.microsoft.com/en-us/windows/win32/psapi/enumerating-all-processes
-int PrintProcessID(void) {
-	// A pointer to an array that receives the list of process identifiers.
-	DWORD aProcesses[512];
-
-	// The number of bytes returned in the pProcessIds array.
-	DWORD cbNeeded;
-
-	// Store process identifiers.
-	DWORD cProcesses;
+int Process::GetProcessIDs(void) {
 
 	if (!EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded)) {
 		std::cout << "EnumProcesses failed." << std::endl;
@@ -21,10 +15,32 @@ int PrintProcessID(void) {
 	// Calculate how many process identifiers were returned.
 	cProcesses = cbNeeded / sizeof(DWORD);
 
-	unsigned int i;
-	for (i = 0; i < cProcesses; i++) {
-		std::cout << "Process: " << i << "\nID: " << aProcesses[i] << std::endl;
-	}
+	return 0;
+}
 
+TCHAR Process::PrintProcessName(int processID) {
+	TCHAR szProcessName[MAX_PATH] = TEXT("<unknown>");
+	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION |
+		PROCESS_VM_READ,
+		FALSE, processID);
+	if (NULL != hProcess) {
+		HMODULE hMod;
+		DWORD cbNeeded;
+
+		if (EnumProcessModules(hProcess, &hMod, sizeof(hMod),
+			&cbNeeded))
+		{
+			GetModuleBaseName(hProcess, hMod, szProcessName,
+				sizeof(szProcessName) / sizeof(TCHAR));
+		}
+		// Print the process name and identifier.
+		_tprintf(TEXT("%s\n"), szProcessName);
+
+		// Release the handle to the process.
+		CloseHandle(hProcess);
+	}
+	else {
+		std::cout << "\n";
+	}
 	return 0;
 }
