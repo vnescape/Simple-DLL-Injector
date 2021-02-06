@@ -18,7 +18,7 @@ int Process::GetProcessIDs(void) {
 	return 0;
 }
 
-TCHAR Process::PrintProcessName(int processID) {
+int Process::PrintProcessName(int processID) {
 	TCHAR szProcessName[MAX_PATH] = TEXT("<unknown>");
 	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION |
 		PROCESS_VM_READ,

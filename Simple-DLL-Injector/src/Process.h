@@ -11,5 +11,5 @@ public:
 	DWORD cProcesses;
 
 	int GetProcessIDs(void);
-	TCHAR PrintProcessName(int processID);
+	int PrintProcessName(int processID);
 };
