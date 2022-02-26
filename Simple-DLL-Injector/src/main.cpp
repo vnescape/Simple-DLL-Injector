@@ -16,17 +16,19 @@ int main(void) {
 
 
 	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, 0, procID);
-
 	if (hProc == NULL)
 	{
 		std::cout << "Could not OpenProcess: " << GetLastError();
+		return 1;
 	}
 
-	LPVOID baseAddress = VirtualAllocEx(hProc,
-										0,
-										MAX_PATH,
-										MEM_COMMIT | MEM_RESERVE,
-										PAGE_READWRITE);
+	LPVOID baseAddress = VirtualAllocEx(hProc, 0, MAX_PATH, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+	if (baseAddress == NULL)
+	{
+		std::cout << "Could not allocate memeory: " << GetLastError();
+		return 1;
+	}
+
 	WriteProcessMemory(hProc, baseAddress, dllPath.c_str(), dllPath.length(), 0);
 
 	std::cin.get();
