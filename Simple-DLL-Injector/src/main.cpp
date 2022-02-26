@@ -11,7 +11,8 @@ int main(void) {
 		list.PrintProcessName(list.aProcesses[i]);
 		std::cout << "\n";
 	}
-
+	list.GetUserProcessID();
+	list.GetUserDLLPath();
 	std::cin.get();
 	return 0;
 }

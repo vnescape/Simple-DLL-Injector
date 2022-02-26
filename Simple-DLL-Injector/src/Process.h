@@ -1,5 +1,7 @@
 #pragma once
 #include <Windows.h>
+#include <string>
+
 class Process {
 	// Source: https://docs.microsoft.com/en-us/windows/win32/psapi/enumerating-all-processes
 public:
@@ -10,6 +12,8 @@ public:
 	// Store process identifiers.
 	DWORD cProcesses;
 
+	int GetUserProcessID(void);
+	std::string GetUserDLLPath(void);
 	int GetProcessIDs(void);
 	int PrintProcessName(int processID);
 };
