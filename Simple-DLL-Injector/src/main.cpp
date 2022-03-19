@@ -31,6 +31,16 @@ int main(void) {
 
 	WriteProcessMemory(hProc, baseAddress, dllPath.c_str(), dllPath.length(), 0);
 
+	HANDLE hThread = CreateRemoteThread(hProc, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibraryA, baseAddress, 0, 0);
+
+	if (hThread) {
+		CloseHandle(hThread);
+	}
+
+	if (hProc) {
+		CloseHandle(hProc);
+	}
+
 	std::cin.get();
 	return 0;
 }
