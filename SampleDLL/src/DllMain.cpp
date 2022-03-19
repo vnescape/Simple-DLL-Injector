@@ -12,6 +12,7 @@ BOOL WINAPI DllMain(
     case DLL_PROCESS_ATTACH:
         // Initialize once for each new process.
         // Return FALSE to fail DLL load.
+        MessageBox(0, TEXT("Hello from DllMain :D"), 0, MB_OK);
         break;
 
     case DLL_THREAD_ATTACH:
