@@ -25,22 +25,20 @@ int main(void) {
 	LPVOID baseAddress = VirtualAllocEx(hProc, 0, MAX_PATH, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 	if (baseAddress == NULL)
 	{
-		std::cout << "Could not allocate memeory: " << GetLastError();
+		std::cout << "Could not allocate memeory: " << GetLastError() << std::endl;
 		return 1;
 	}
 
-	WriteProcessMemory(hProc, baseAddress, dllPath.c_str(), dllPath.length(), 0);
+	if (WriteProcessMemory(hProc, baseAddress, dllPath.c_str(), dllPath.length(), 0) == 0)
+		std::cout << "Could not write into process memory: " << GetLastError() << std::endl;
 
 	HANDLE hThread = CreateRemoteThread(hProc, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibraryA, baseAddress, 0, 0);
 
-	if (hThread) {
+	if (hThread)
 		CloseHandle(hThread);
-	}
 
-	if (hProc) {
+	if (hProc) 
 		CloseHandle(hProc);
-	}
 
-	std::cin.get();
 	return 0;
 }
