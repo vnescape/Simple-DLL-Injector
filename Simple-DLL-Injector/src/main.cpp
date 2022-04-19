@@ -3,6 +3,13 @@
 
 
 int main(int argc, char* argv[]) {
+
+	if (argc < 2) {
+		std::cout << "Need more arguments" << std::endl;
+		return 1;
+	}
+
+	// list ProcessIDs and process names to choose from
 	Process list;
 	list.GetProcessIDs();
 	for (unsigned int i = 0; i < list.cProcesses; i++) {
@@ -11,10 +18,7 @@ int main(int argc, char* argv[]) {
 		list.PrintProcessName(list.aProcesses[i]);
 		std::cout << "\n";
 	}
-	if (argc < 2) {
-		std::cout << "Need more arguments" << std::endl;
-		return 1;
-	}
+
 	int procID = std::stoi(argv[1]);
 	std::string dllPath = argv[2];
 
