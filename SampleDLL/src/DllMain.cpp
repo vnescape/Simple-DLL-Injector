@@ -12,7 +12,7 @@ BOOL WINAPI DllMain(
     {
     case DLL_PROCESS_ATTACH:
         {
-        // Initialize once for each new process.
+        // Initialize once for each new process.-
         // Return FALSE to fail DLL load.
         std::wstring output = L"Hello from: ";
         WCHAR processName[MAX_PATH] = { 0 };
@@ -21,7 +21,7 @@ BOOL WINAPI DllMain(
             MessageBox(0, output.c_str(), 0, MB_OK);
         }
         else {
-            MessageBox(0, TEXT("Failed to get process "), 0, MB_OK);
+            MessageBox(0, TEXT("Failed to get process "), TEXT("MessageBox"), MB_OK);
         }
         }
         break;
