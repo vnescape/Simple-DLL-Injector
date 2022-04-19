@@ -18,7 +18,7 @@ BOOL WINAPI DllMain(
         WCHAR processName[MAX_PATH] = { 0 };
         if (GetModuleFileNameW(NULL, processName, ARRAYSIZE(processName))) {
             output += processName;
-            MessageBox(0, output.c_str(), 0, MB_OK);
+            MessageBox(0, output.c_str(), TEXT("MessageBox"), MB_OK);
         }
         else {
             MessageBox(0, TEXT("Failed to get process "), TEXT("MessageBox"), MB_OK);
