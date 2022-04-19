@@ -3,7 +3,7 @@
 #include <tlhelp32.h>
 
 
-int simpleDLLInjection(int procID, std::wstring dllPath) {
+int simpleDLLInjection(int procID, std::string dllPath) {
 	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, 0, procID);
 	if (hProc == NULL)
 	{
@@ -36,16 +36,18 @@ int simpleDLLInjection(int procID, std::wstring dllPath) {
 	return 0;
 }
 
-int main(int argc, wchar_t* argv[]) {
+int main(int argc, char** argv) {
 
 	if (argc < 3) {
 		std::cout << "Usage: .\Simple-DLL-Injector.exe <processID/processName> <pathToDLL>" << std::endl;
 		return 1;
 	}
 	
-	std::wstring procName = argv[1];
+	std::string procName = argv[1];
+	int procID = 0;
 	// detect if process name is used instead of processID
-	if (procName.find(L".exe") != std::string::npos) {
+	if (procName.find(".exe") != std::string::npos)
+	{
 		PROCESSENTRY32 entry;
 		entry.dwSize = sizeof(PROCESSENTRY32);
 
@@ -55,22 +57,22 @@ int main(int argc, wchar_t* argv[]) {
 		{
 			while (Process32Next(snapshot, &entry) == TRUE)
 			{
-				if (wcscmp(entry.szExeFile, procName.c_str()) == 0)
+				if (wcscmp(entry.szExeFile, (wchar_t*)procName.c_str()) == 0)
 				{
-					HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
-
-					// Do stuff..
-
-					CloseHandle(hProcess);
+					procID = entry.th32ProcessID;
 				}
 			}
 		}
 
 		CloseHandle(snapshot);
 	}
+	else
+	{
+		procID = std::stoi(argv[1]);
+	}
 
-	int procID = std::stoi(argv[1]);
-	std::wstring dllPath = argv[2];
+
+	std::string dllPath = argv[2];
 	
 
 	return simpleDLLInjection(procID, dllPath);
