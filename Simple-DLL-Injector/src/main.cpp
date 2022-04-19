@@ -1,14 +1,11 @@
 #include "Process.h"
 #include <iostream>
 
-void printUsage() {
-	std::cout << "Usage: .\Simple-DLL-Injector.exe <processID> <pathToDLL>" << std::endl;
-}
 
 int main(int argc, char* argv[]) {
 
 	if (argc < 3) {
-		printUsage();
+		std::cout << "Usage: .\Simple-DLL-Injector.exe <processID> <pathToDLL>" << std::endl;
 		return 1;
 	}
 
