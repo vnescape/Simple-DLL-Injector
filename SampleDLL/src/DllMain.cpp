@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <string>
 
 
 BOOL WINAPI DllMain(
@@ -10,9 +11,19 @@ BOOL WINAPI DllMain(
     switch (fdwReason)
     {
     case DLL_PROCESS_ATTACH:
+        {
         // Initialize once for each new process.
         // Return FALSE to fail DLL load.
-        MessageBox(0, TEXT("Hello from DllMain :D"), 0, MB_OK);
+        std::wstring output = L"Hello from: ";
+        WCHAR processName[MAX_PATH] = { 0 };
+        if (GetModuleFileNameW(NULL, processName, ARRAYSIZE(processName))) {
+            output += processName;
+            MessageBox(0, output.c_str(), 0, MB_OK);
+        }
+        else {
+            MessageBox(0, TEXT("Failed to get process "), 0, MB_OK);
+        }
+        }
         break;
 
     case DLL_THREAD_ATTACH:
