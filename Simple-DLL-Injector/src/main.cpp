@@ -30,7 +30,11 @@ int main(void) {
 	}
 
 	if (WriteProcessMemory(hProc, baseAddress, dllPath.c_str(), dllPath.length(), 0) == 0)
+	{
 		std::cout << "Could not write into process memory: " << GetLastError() << std::endl;
+		return 1;
+	}
+
 
 	HANDLE hThread = CreateRemoteThread(hProc, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibraryA, baseAddress, 0, 0);
 
