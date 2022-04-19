@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-int main(void) {
+int main(int argc, char* argv[]) {
 	Process list;
 	list.GetProcessIDs();
 	for (unsigned int i = 0; i < list.cProcesses; i++) {
@@ -11,8 +11,8 @@ int main(void) {
 		list.PrintProcessName(list.aProcesses[i]);
 		std::cout << "\n";
 	}
-	int procID = list.GetUserProcessID();
-	std::string dllPath = list.GetUserDLLPath();
+	int procID = std::stoi(argv[1]);
+	std::string dllPath = argv[2];
 
 
 	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, 0, procID);
