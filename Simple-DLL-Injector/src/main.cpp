@@ -1,22 +1,15 @@
 #include "Process.h"
 #include <iostream>
 
+void printUsage() {
+	std::cout << "Usage: .\Simple-DLL-Injector.exe <processID> <pathToDLL" << std::endl;
+}
 
 int main(int argc, char* argv[]) {
 
 	if (argc < 2) {
-		std::cout << "Need more arguments" << std::endl;
+		printUsage();
 		return 1;
-	}
-
-	// list ProcessIDs and process names to choose from
-	Process list;
-	list.GetProcessIDs();
-	for (unsigned int i = 0; i < list.cProcesses; i++) {
-		std::cout << "ProcessID: " << list.aProcesses[i] << std::endl;
-		std::cout << "ProcessName: ";
-		list.PrintProcessName(list.aProcesses[i]);
-		std::cout << "\n";
 	}
 
 	int procID = std::stoi(argv[1]);
