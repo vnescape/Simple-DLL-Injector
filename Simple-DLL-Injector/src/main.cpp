@@ -39,7 +39,7 @@ int simpleDLLInjection(int procID, std::string dllPath) {
 int main(int argc, char** argv) {
 
 	if (argc < 3) {
-		std::cout << "Usage: .\\Simple - DLL - Injector.exe <processID / processName> <pathToDLL>" << std::endl;
+		std::cout << "Usage: .\\Simple-DLL-Injector.exe <processID / processName> <pathToDLL>" << std::endl;
 		return 1;
 	}
 	
@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
 		{
 			while (Process32Next(snapshot, &entry) == TRUE)
 			{
-				if (wcscmp(entry.szExeFile, (wchar_t*)procName.c_str()) == 0)
+				if (wcscmp(entry.szExeFile, (wchar_t*)procName.c_str()) == 0) // does not work
 				{
 					procID = entry.th32ProcessID;
 				}
@@ -65,15 +65,17 @@ int main(int argc, char** argv) {
 		}
 
 		CloseHandle(snapshot);
+		if (procID == 0) {
+			std::cout << "Could not find process: " << argv[1] << std::endl;
+			return 1;
+		}
 	}
 	else
 	{
 		procID = std::stoi(argv[1]);
 	}
 
-
 	std::string dllPath = argv[2];
-	
 
 	return simpleDLLInjection(procID, dllPath);
 }
