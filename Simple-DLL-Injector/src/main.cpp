@@ -2,17 +2,7 @@
 #include <iostream>
 
 
-int main(int argc, char* argv[]) {
-
-	if (argc < 3) {
-		std::cout << "Usage: .\Simple-DLL-Injector.exe <processID> <pathToDLL>" << std::endl;
-		return 1;
-	}
-
-	int procID = std::stoi(argv[1]);
-	std::string dllPath = argv[2];
-
-
+int simpleDLLInjection(int procID, std::string dllPath) {
 	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, 0, procID);
 	if (hProc == NULL)
 	{
@@ -39,8 +29,28 @@ int main(int argc, char* argv[]) {
 	if (hThread)
 		CloseHandle(hThread);
 
-	if (hProc) 
+	if (hProc)
 		CloseHandle(hProc);
 
 	return 0;
+}
+
+int main(int argc, char* argv[]) {
+
+	if (argc < 3) {
+		std::cout << "Usage: .\Simple-DLL-Injector.exe <processID/processName> <pathToDLL>" << std::endl;
+		return 1;
+	}
+	
+	std::string procName = argv[1];
+	// detect if process name is used instead of processID
+	if (procName.find(".exe") != std::string::npos) {
+
+	}
+
+	int procID = std::stoi(argv[1]);
+	std::string dllPath = argv[2];
+	
+
+	return simpleDLLInjection(procID, dllPath);
 }
