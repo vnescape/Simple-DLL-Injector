@@ -43,6 +43,9 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 	
+	int argcW;
+	LPWSTR* argvW = CommandLineToArgvW(GetCommandLineW(), &argcW);
+
 	std::string procName = argv[1];
 	int procID = 0;
 	// detect if process name is used instead of processID
@@ -57,7 +60,7 @@ int main(int argc, char** argv) {
 		{
 			while (Process32Next(snapshot, &entry) == TRUE)
 			{
-				if (wcscmp(entry.szExeFile, (wchar_t*)procName.c_str()) == 0) // does not work
+				if (wcscmp(entry.szExeFile, argvW[1]) == 0) // does not work
 				{
 					procID = entry.th32ProcessID;
 				}
@@ -72,7 +75,7 @@ int main(int argc, char** argv) {
 	}
 	else
 	{
-		procID = std::stoi(argv[1]);
+		procID = std::stoi(argvW[1]);
 	}
 
 	std::string dllPath = argv[2];
