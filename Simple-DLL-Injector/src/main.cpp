@@ -52,6 +52,8 @@ int main(int argc, char** argv) {
 	if (procName.find(".exe") != std::string::npos)
 	{
 		PROCESSENTRY32 entry;
+		// Before calling the Process32First function, set this member to sizeof(PROCESSENTRY32).
+		// If you do not initialize dwSize, Process32First fails.
 		entry.dwSize = sizeof(PROCESSENTRY32);
 
 		HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
