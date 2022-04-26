@@ -48,6 +48,7 @@ int main(int argc, char** argv) {
 
 	std::string procName = argv[1];
 	int procID = 0;
+
 	// detect if process name is used instead of processID
 	if (procName.find(".exe") != std::string::npos)
 	{
@@ -62,7 +63,7 @@ int main(int argc, char** argv) {
 		{
 			while (Process32Next(snapshot, &entry) == TRUE)
 			{
-				if (wcscmp(entry.szExeFile, argvW[1]) == 0) // does not work
+				if (wcscmp(entry.szExeFile, argvW[1]) == 0)
 				{
 					procID = entry.th32ProcessID;
 				}
