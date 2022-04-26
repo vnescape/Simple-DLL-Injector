@@ -3,7 +3,7 @@
 #include <tlhelp32.h>
 
 
-int simpleDLLInjection(int procID, std::string dllPath) {
+int simpleDLLInjection(DWORD& procID, std::string& dllPath) {
 	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, 0, procID);
 	if (hProc == NULL)
 	{
@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
 	LPWSTR* argvW = CommandLineToArgvW(GetCommandLineW(), &argcW);
 
 	std::string procName = argv[1];
-	int procID = 0;
+	DWORD procID = 0;
 
 	// detect if process name is used instead of processID
 	if (procName.find(".exe") != std::string::npos)
