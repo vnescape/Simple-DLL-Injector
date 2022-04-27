@@ -19,6 +19,8 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 		return 1;
 	}
 
+	std::cout << "[+] Allocated memory at: " << baseAddress << std::endl;
+
 	BOOL write = WriteProcessMemory(hProc, baseAddress, dllPath.c_str(), dllPath.length(), 0);
 
 	if (write == 0)
@@ -27,6 +29,7 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 		return 1;
 	}
 
+	std::cout << "[+] Wrote: " << dllPath.c_str() << " at: " << baseAddress << std::endl;
 
 	HANDLE hThread = CreateRemoteThread(hProc, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibraryA, baseAddress, 0, 0);
 
@@ -35,6 +38,8 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 		std::cout << "[-] Could not CreateRemoteThread() error: " << GetLastError() << std::endl;
 		return 1;
 	}
+
+	std::cout << "[+] Started remote thread successfully" << std::endl;
 
 	if (hThread)
 		CloseHandle(hThread);
