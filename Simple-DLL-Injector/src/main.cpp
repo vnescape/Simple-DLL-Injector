@@ -3,8 +3,8 @@
 #include <tlhelp32.h>
 
 
-int simpleDLLInjection(DWORD& procID, std::string& dllPath) {
-	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, 0, procID);
+int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
+	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, 0, procId);
 	if (hProc == NULL)
 	{
 		std::cout << "Could not OpenProcess: " << GetLastError();
@@ -56,7 +56,9 @@ int main(int argc, char** argv) {
 	LPWSTR* argvW = CommandLineToArgvW(GetCommandLineW(), &argcW);
 
 	std::string procName = argv[1];
-	DWORD procID = 0;
+	DWORD procId = 0;
+	
+	std::cout << "[ ] Get procId and procName..." << std::endl;
 
 	// detect if process name is used instead of processID
 	if (procName.find(".exe") != std::string::npos)
@@ -74,23 +76,27 @@ int main(int argc, char** argv) {
 			{
 				if (wcscmp(entry.szExeFile, argvW[1]) == 0)
 				{
-					procID = entry.th32ProcessID;
+					procId = entry.th32ProcessID;
 				}
 			}
 		}
 
+		std::cout << "[*] Got procId and procName: " << std::endl;
+		std::cout << "    |- procId: " << procId << std::endl;
+		std::cout << "    |- procName: " << procName << std::endl;
+
 		CloseHandle(snapshot);
-		if (procID == 0) {
+		if (procId == 0) {
 			std::cout << "Could not find process: " << argv[1] << std::endl;
 			return 1;
 		}
 	}
 	else
 	{
-		procID = std::stoi(argvW[1]);
+		procId = std::stoi(argvW[1]);
 	}
 
 	std::string dllPath = argv[2];
 
-	return simpleDLLInjection(procID, dllPath);
+	return simpleDLLInjection(procId, dllPath);
 }
