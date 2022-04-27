@@ -19,7 +19,9 @@ int simpleDLLInjection(DWORD& procID, std::string& dllPath) {
 		return 1;
 	}
 
-	if (WriteProcessMemory(hProc, baseAddress, dllPath.c_str(), dllPath.length(), 0) == 0)
+	BOOL write = WriteProcessMemory(hProc, baseAddress, dllPath.c_str(), dllPath.length(), 0);
+
+	if (write == 0)
 	{
 		std::cout << "Could not write into process memory: " << GetLastError() << std::endl;
 		return 1;
