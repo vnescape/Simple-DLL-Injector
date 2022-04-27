@@ -86,24 +86,20 @@ int main(int argc, char** argv) {
 			}
 		}
 
-
-
 		CloseHandle(snapshot);
 		if (procId == 0) {
 			std::cout << "[-] Could not find process: " << argv[1] << std::endl;
 			return 1;
-		}
-		else
-		{
-			std::cout << "[+] Got procId and procName: " << std::endl;
-			std::cout << "    |- procId: " << procId << std::endl;
-			std::cout << "    |- procName: " << procName << std::endl;
 		}
 	}
 	else
 	{
 		procId = std::stoi(argvW[1]);
 	}
+
+	std::cout << "[+] Got procId and procName: " << std::endl;
+	std::cout << "    |- procId: " << procId << std::endl;
+	std::cout << "    |- procName: " << procName << std::endl;
 
 	std::string dllPath = argv[2];
 
