@@ -7,7 +7,7 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, 0, procId);
 	if (hProc == NULL)
 	{
-		std::cout << "Could not OpenProcess: " << GetLastError();
+		std::cout << "[-] Could not OpenProcess: " << GetLastError();
 		return 1;
 	}
 
@@ -15,7 +15,7 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 
 	if (baseAddress == NULL)
 	{
-		std::cout << "Could not allocate memeory: " << GetLastError() << std::endl;
+		std::cout << "[-] Could not allocate memeory: " << GetLastError() << std::endl;
 		return 1;
 	}
 
@@ -23,7 +23,7 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 
 	if (write == 0)
 	{
-		std::cout << "Could not write into process memory: " << GetLastError() << std::endl;
+		std::cout << "[-] Could not write into process memory: " << GetLastError() << std::endl;
 		return 1;
 	}
 
@@ -32,7 +32,7 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 
 	if (hThread == NULL)
 	{
-		std::cout << "Could not CreateRemoteThread() error: " << GetLastError() << std::endl;
+		std::cout << "[-] Could not CreateRemoteThread() error: " << GetLastError() << std::endl;
 		return 1;
 	}
 
@@ -85,12 +85,12 @@ int main(int argc, char** argv) {
 
 		CloseHandle(snapshot);
 		if (procId == 0) {
-			std::cout << "Could not find process: " << argv[1] << std::endl;
+			std::cout << "[-} Could not find process: " << argv[1] << std::endl;
 			return 1;
 		}
 		else
 		{
-			std::cout << "[*] Got procId and procName: " << std::endl;
+			std::cout << "[+] Got procId and procName: " << std::endl;
 			std::cout << "    |- procId: " << procId << std::endl;
 			std::cout << "    |- procName: " << procName << std::endl;
 		}
