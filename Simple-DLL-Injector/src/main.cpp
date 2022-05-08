@@ -7,7 +7,7 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, 0, procId);
 	if (hProc == NULL)
 	{
-		std::cout << "[-] Could not OpenProcess: " << GetLastError();
+		std::cout << "[-] Could not OpenProcess: " << GetLastError() << std::endl;
 		return 1;
 	}
 
