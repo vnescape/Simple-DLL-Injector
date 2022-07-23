@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
 				}
 			}
 		}
-
+		// very importent to close the handle 
 		CloseHandle(snapshot);
 		if (procId == 0) {
 			std::cout << "[-] Could not find process: " << argv[1] << std::endl;
