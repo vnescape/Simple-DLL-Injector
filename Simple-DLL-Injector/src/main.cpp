@@ -40,6 +40,18 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 	}
 
 	std::cout << "[+] Created remote thread via CreateRemoteThread()" << std::endl;
+
+	DWORD lpExitCode;
+	if (GetExitCodeThread(hThread, &lpExitCode) == NULL)
+	{
+		std::cout << "[-] Could not GetExitCodeThread() error: " << GetLastError() << std::endl;
+		return 1;
+	}
+	if (lpExitCode == STILL_ACTIVE)
+	{
+		std::cout << "[+] Thread is running, wait for termination..." << std::endl;
+	}
+
 	DWORD waitRes = WaitForSingleObject(hThread, INFINITE);
 
 	if (waitRes == WAIT_FAILED)
@@ -48,13 +60,14 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 		return 1;
 	}
 
-	DWORD lpExitCode;
-	if (GetExitCodeThread(hThread, &lpExitCode) == NULL)
+	DWORD lpExitCode1;
+	if (GetExitCodeThread(hThread, &lpExitCode1) == NULL)
 	{
 		std::cout << "[-] Could not GetExitCodeThread() error: " << GetLastError() << std::endl;
 		return 1;
 	}
-	std::cout << "[+] Thread exited with: " << lpExitCode << std::endl;
+	std::cout << "[+] Thread exited with: " << lpExitCode1 << std::endl;
+
 	if (hThread)
 		CloseHandle(hThread);
 
