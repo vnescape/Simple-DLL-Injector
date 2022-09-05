@@ -30,6 +30,9 @@ BOOL WINAPI DllMain(
         // Initialize once for each new process.-
         // Return FALSE to fail DLL load.
         {
+        start(hinstDLL);
+        /*
+        
         HANDLE hThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)start, hinstDLL, 0, nullptr);
 
         if (hThread == NULL) {
@@ -38,6 +41,7 @@ BOOL WINAPI DllMain(
         }
 
         CloseHandle(hThread);
+        */
         break;
         }
 
