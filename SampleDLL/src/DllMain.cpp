@@ -29,10 +29,18 @@ BOOL WINAPI DllMain(
     case DLL_PROCESS_ATTACH:
         // Initialize once for each new process.-
         // Return FALSE to fail DLL load.
-        {
-        start(hinstDLL);
-        break;
+    {
+        HANDLE hThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)start, hinstDLL, 0, nullptr);
+
+        if (hThread == NULL) {
+            std::cout << "Could not create thread: " << GetLastError() << std::endl;
+            return 1;
         }
+
+
+        CloseHandle(hThread);
+        break;
+    }
 
     case DLL_THREAD_ATTACH:
         // Do thread-specific initialization.
