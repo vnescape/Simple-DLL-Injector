@@ -31,17 +31,6 @@ BOOL WINAPI DllMain(
         // Return FALSE to fail DLL load.
         {
         start(hinstDLL);
-        /*
-        
-        HANDLE hThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)start, hinstDLL, 0, nullptr);
-
-        if (hThread == NULL) {
-            std::cout << "Could not create thread: " << GetLastError() << std::endl;
-            return 1;
-        }
-
-        CloseHandle(hThread);
-        */
         break;
         }
 
