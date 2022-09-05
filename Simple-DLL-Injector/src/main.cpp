@@ -29,7 +29,7 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 		return 1;
 	}
 
-	std::cout << "[+] Wrote: " << dllPath.c_str() << " at: " << baseAddress << std::endl;
+	std::cout << "[+] Wrote: " << dllPath.c_str() << " at: " << baseAddress << " via WriteProcessMemory()" << std::endl;
 
 	HANDLE hThread = CreateRemoteThread(hProc, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibraryA, baseAddress, 0, 0);
 
