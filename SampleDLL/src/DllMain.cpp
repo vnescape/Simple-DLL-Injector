@@ -37,7 +37,6 @@ BOOL WINAPI DllMain(
             return 1;
         }
 
-
         CloseHandle(hThread);
         break;
     }
