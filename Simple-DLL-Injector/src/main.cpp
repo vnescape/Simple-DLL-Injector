@@ -66,6 +66,7 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 		std::cout << "[-] Could not GetExitCodeThread() error: " << GetLastError() << std::endl;
 		return 1;
 	}
+
 	// This return value doesn't seam right.
 	// It might be because the Dll loader Thread does return that value
 	std::cout << "[+] Thread exited with: " << std::hex << lpExitCode1 << std::endl;
@@ -88,7 +89,7 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 int main(int argc, char** argv) {
 
 	if (argc < 3) {
-		std::cout << "Usage: .\\Simple-DLL-Injector.exe <processID / processName> <absolutPathToDll>" << std::endl;
+		std::cout << "Usage: .\\Simple-DLL-Injector.exe <processID / processName> <pathToDll>" << std::endl;
 		return 1;
 	}
 	
@@ -136,7 +137,15 @@ int main(int argc, char** argv) {
 	std::cout << "    |- procId: " << procId << std::endl;
 	std::cout << "    |- procName: " << procName << std::endl;
 
-	std::string dllPath = argv[2];
+
+	char absolutDllPath[4096] = { 0 };
+	if (GetFullPathNameA(argv[2], 4096, absolutDllPath, 0) == NULL)
+	{
+		std::cout << "[-] Could not GetFullPathNameA() error: " << GetLastError() << std::endl;
+		return 1;
+	}
+
+	std::string dllPath = absolutDllPath;
 
 	return simpleDLLInjection(procId, dllPath);
 }
