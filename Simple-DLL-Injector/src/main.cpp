@@ -48,8 +48,8 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 		return 1;
 	}
 
-	LPDWORD lpExitCode = nullptr;
-	if (GetExitCodeThread(hThread, lpExitCode) == NULL)
+	DWORD lpExitCode;
+	if (GetExitCodeThread(hThread, &lpExitCode) == NULL)
 	{
 		std::cout << "[-] Could not GetExitCodeThread() error: " << GetLastError() << std::endl;
 		return 1;
