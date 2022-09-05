@@ -53,7 +53,7 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 int main(int argc, char** argv) {
 
 	if (argc < 3) {
-		std::cout << "Usage: .\\Simple-DLL-Injector.exe <processID / processName> <pathToDLL>" << std::endl;
+		std::cout << "Usage: .\\Simple-DLL-Injector.exe <processID / processName> <absolutPathToDll>" << std::endl;
 		return 1;
 	}
 	
