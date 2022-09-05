@@ -66,7 +66,9 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 		std::cout << "[-] Could not GetExitCodeThread() error: " << GetLastError() << std::endl;
 		return 1;
 	}
-	std::cout << "[+] Thread exited with: " << lpExitCode1 << std::endl;
+	// This return value doesn't seam right.
+	// It might be because the Dll loader Thread does return that value
+	std::cout << "[+] Thread exited with: " << std::hex << lpExitCode1 << std::endl;
 
 	if (VirtualFreeEx(hProc, baseAddress, 0, MEM_RELEASE) == NULL)
 	{
