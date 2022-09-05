@@ -19,13 +19,13 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 		return 1;
 	}
 
-	std::cout << "[+] Allocated memory at: " << baseAddress << std::endl;
+	std::cout << "[+] Allocated memory at: " << baseAddress << " via VirtualAllocEx()" << std::endl;
 
 	BOOL write = WriteProcessMemory(hProc, baseAddress, dllPath.c_str(), dllPath.length(), 0);
 
 	if (write == 0)
 	{
-		std::cout << "[-] Could not write into process memory: " << GetLastError() << std::endl;
+		std::cout << "[-] Could not write into process memory: " << GetLastError() << " via WriteProcessMemory()" << std::endl;
 		return 1;
 	}
 
@@ -39,7 +39,7 @@ int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 		return 1;
 	}
 
-	std::cout << "[+] Started remote thread successfully" << std::endl;
+	std::cout << "[+] Started remote thread successfully via CreateRemoteThread()" << std::endl;
 
 	if (hThread)
 		CloseHandle(hThread);
