@@ -3,6 +3,14 @@
 #include <tlhelp32.h>
 
 
+// Checks if dll is loaded in the target process
+int checkForModule(std::string& dllPath, int procId)
+{
+	// 0 means fals
+	return 0;
+}
+
+
 int simpleDLLInjection(DWORD& procId, std::string& dllPath) {
 	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, 0, procId);
 	if (hProc == NULL)
