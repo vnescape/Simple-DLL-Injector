@@ -14,7 +14,7 @@
 
 
 // https://docs.microsoft.com/en-us/windows/win32/psapi/enumerating-all-modules-for-a-process
-int PrintModules(DWORD processID)
+int checkForModule(DWORD processID, std::string& dllPath)
 {
 	HMODULE hMods[1024];
 	HANDLE hProcess;
@@ -46,11 +46,19 @@ int PrintModules(DWORD processID)
 			if (GetModuleFileNameEx(hProcess, hMods[i], szModName,
 				sizeof(szModName) / sizeof(TCHAR)))
 			{
-				// Print the module name and handle value.
-
-				_tprintf(TEXT("\t%s (0x%08X)\n"), szModName, hMods[i]);
+				// Print the module name and handle value if it corresponds with target dll.
+				std::wstring wideDllPathName = std::wstring(dllPath.begin(), dllPath.end());
+				if (!_tcscmp(szModName, wideDllPathName.c_str()))
+				{
+					_tprintf(TEXT("\t%s (0x%08X)\n"), szModName, hMods[i]);
+					std::cout << "Module/Dll has been loaded already. Unload module first." << std::endl;
+					// Module was found
+					return 0;
+				}
 			}
 		}
+		// Module was not found
+		return 1;
 	}
 
 	// Release the handle to the process.
@@ -211,6 +219,9 @@ int main(int argc, char** argv) {
 	}
 
 	std::string dllPath = absolutDllPath;
-	PrintModules(procId);
+	if (checkForModule(procId, dllPath) == NULL)
+	{
+		exit(EXIT_FAILURE);
+	}
 	return simpleDLLInjection(procId, dllPath);
 }
