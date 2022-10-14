@@ -211,7 +211,7 @@ int main(int argc, char** argv) {
 	if (GetFullPathNameA(argv[2], 4096, absolutDllPath, 0) == NULL)
 	{
 		std::cout << "[-] Could not GetFullPathNameA() error: " << GetLastError() << std::endl;
-		return 1;
+		exit(EXIT_FAILURE);
 	}
 
 	std::string dllPath = absolutDllPath;
