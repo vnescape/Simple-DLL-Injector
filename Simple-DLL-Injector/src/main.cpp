@@ -22,7 +22,7 @@ int checkForModule(DWORD processID, std::string& dllPath)
 	unsigned int i;
 
 	// Print the process identifier.
-	printf("\nProcess ID: %u\n", processID);
+	//printf("\nProcess ID: %u\n", processID);
 
 	// Get a handle to the process.
 	hProcess = OpenProcess(PROCESS_QUERY_INFORMATION |
@@ -46,8 +46,8 @@ int checkForModule(DWORD processID, std::string& dllPath)
 				std::wstring wideDllPathName = std::wstring(dllPath.begin(), dllPath.end());
 				if (!_tcscmp(szModName, wideDllPathName.c_str()))
 				{
-					_tprintf(TEXT("\t%s (0x%08X)\n"), szModName, hMods[i]);
-					std::cout << "Module/Dll has been loaded already. Unload module first." << std::endl;
+					//_tprintf(TEXT("\t%s (0x%08X)\n"), szModName, hMods[i]);
+					std::cout << "Dll has been loaded already. Unload module first." << std::endl;
 					// Module was found
 					return 0;
 				}
@@ -67,7 +67,7 @@ int checkForModule(DWORD processID, std::string& dllPath)
 // Checks if dll is loaded in the target process
 int checkForModule(std::string& dllPath, int procId)
 {
-	// 0 means fals
+	// 0 means false
 	return 0;
 }
 
